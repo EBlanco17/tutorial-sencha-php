@@ -1,0 +1,8 @@
+/build
+bootstrap.*
+classic.json*
+modern.json*
+.sencha
+/ext
+/api/utils
+/api/config/CoreConfig.local.php
