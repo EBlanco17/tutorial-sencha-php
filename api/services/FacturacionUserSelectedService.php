@@ -31,7 +31,7 @@ class FacturacionUserSelectedService
             $start = ($page - 1) * $limit;
             // $user = $data['user'];
         
-            $query = "SELECT user_name, firstnames, lastnames, email FROM mosat.cliente_mosat LIMIT :limit OFFSET :start;";
+            $query = "SELECT user_name, firstnames, lastnames, email, mobilenumber FROM mosat.cliente_mosat WHERE user_name LIKE '%prue%' LIMIT :limit OFFSET :start;";
             $this->database->query($query);
             $this->database->bind(':limit', $limit);
             $this->database->bind(':start', $start);
@@ -48,7 +48,7 @@ class FacturacionUserSelectedService
             // $user = $data['user'];
             $queryv = "SELECT COUNT(*) OVER() AS total 
             FROM (
-                SELECT user_name, firstnames, lastnames, email FROM mosat.cliente_mosat
+                SELECT user_name, firstnames, lastnames, email, mobilenumber FROM mosat.cliente_mosat WHERE user_name LIKE '%prue%'
             ) AS subquery;";
             $this->database->query($queryv);
             // $this->database->bind(':user', $user);
@@ -57,6 +57,33 @@ class FacturacionUserSelectedService
             throw new BusinessException(500, $ex->getMessage());
         }
     }
+
+
+    public function updateUser($data)
+    {
+        try {
+            $this->data = $data;
+            $this->database->beginTransaction();
+            $this->actualizarDatos();
+            $this->database->endTransaction();
+        } catch (BusinessException $e) {
+            $this->database->cancelTransaction();
+            throw $e;
+        }
+    }
+
+    private function actualizarDatos()
+    {
+        $query = "UPDATE mosat.cliente_mosat SET firstnames=:firstnames, lastnames=:lastnames, email=:email, mobilenumber=:mobilenumber WHERE user_name=:user_name;";
+        $this->database->query($query);
+        $this->database->bind(':user_name', $this->data['user_name']);
+        $this->database->bind(':firstnames', $this->data['firstnames']);
+        $this->database->bind(':lastnames', $this->data['lastnames']);
+        $this->database->bind(':email', $this->data['email']);
+        $this->database->bind(':mobilenumber', $this->data['mobilenumber']);
+        $this->database->execute();
+    }
+
 
     private function validarDatos()
     {

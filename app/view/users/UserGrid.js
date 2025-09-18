@@ -15,7 +15,6 @@ Ext.define('app.view.users.UserGrid', {
     items:[{
         
         xtype: 'segmentedbutton',
-        docked: 'bottom',
         reference: 'buttons',
         forceSelection: true,
         defaults: {
@@ -41,24 +40,66 @@ Ext.define('app.view.users.UserGrid', {
     columns: [{ 
         text: 'Name',
         dataIndex: 'user_name',
-        width: 300,
         cell: {
             userCls: 'bold'
-        }
-    },{
+        },
+        width: 320,
+    },
+    {
         text: 'First Names',
         dataIndex: 'firstnames',
-        width: 150
+        width: 150,
 
-    },{
+    },
+    {
         text: 'Last Names',
         dataIndex: 'lastnames',
-        width: 150}
-    
-    ,{
+       width: 150,
+    },
+    {
         text: 'Email',
         dataIndex: 'email',
-        width: 230 
+        responsiveConfig: {
+            'desktop': {
+                minWidth: 300
+            },
+            'phone': {
+                minWidth: 40,
+                maxWidth: 50
+            }
+        }
+        
+    },
+    {
+        text: 'Mobile Number',
+        dataIndex: 'mobilenumber',
+        width: 150,
+        responsiveConfig: {
+            'desktop': {
+                minWidth: 150
+            },
+            'phone': {
+                hidden: true
+            }
+        }
+    },
+    {
+        
+        hideable: false,
+
+        cell: {
+            tools: {
+                approve: {
+                    iconCls: 'x-fa fa-edit blue',
+                    handler: 'onEditClick',
+                },
+                decline: {
+                    iconCls: 'x-fa fa-trash red',
+                    handler: 'onDeleteClick',
+                    weight: 1
+                }
+            }
+        }
     }],
 
     listeners: {

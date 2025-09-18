@@ -4,8 +4,8 @@ Ext.define('app.view.users.UserController', {
     alias: 'controller.user',
 
 
-    onItemSelected: function (sender, record) {
-       
+    onItemSelected: function(grid, record) {
+        Ext.Msg.alert('Selected', record[0].data.user_name); 
     },
     
     onAutoPagingChange: function (segmented, value) {
@@ -18,5 +18,30 @@ Ext.define('app.view.users.UserController', {
         store.loadPage(1);
         grid.refresh();
         
+    },
+
+    onEditClick: function (grid, info) {
+        // Crea el panel de edición
+        var panel = Ext.create('app.view.edit');
+        panel.setValues(info.record.data);
+
+        // Muestra el panel en un dialog
+        Ext.Viewport.add({
+            xtype: 'dialog',
+            layout: 'fit',
+            width: 650,
+            height: 600,
+            items: [panel]
+        }).show();
+
+    },
+
+    onDeleteClick: function (grid, info) {
+        let userName = info.record.get('user_name');
+        Ext.Msg.confirm('Eliminar', '¿Estás seguro de que deseas eliminar este usuario? ' + userName, function (choice) {
+            if (choice === 'yes') {
+                Ext.Msg.alert('Eliminado', userName + ' ha sido eliminado.');
+            }
+        });
     }
 });

@@ -30,6 +30,21 @@ class FacturacionUserSelectedController
                     ExceptionBuilderUtil::buildException($e, $response_code);
                 }
                 break;
+
+            case "PUT":
+                try {
+                    $service = new FacturacionUserSelectedService();
+                    $putData = json_decode(file_get_contents('php://input'), true);
+                    $service->updateUser($putData);
+                    $info_api = [];
+                    $respond_data = new JsonEncode(200, $response_code->CODE_REQUEST(200), "Usuario actualizado", $info_api, 1);
+                    $respond_data->LoadJson();
+                    
+                } catch (BusinessException $e) {
+                    ExceptionBuilderUtil::buildException($e, $response_code);
+                }
+                break;
+
             default:
                 $info_api = [];
                 $respond_data = new JsonEncode(405, $response_code->CODE_REQUEST(405), "Error General", $info_api,1);
