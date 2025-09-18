@@ -22,8 +22,8 @@ Ext.define('app.view.users.UserController', {
 
     onEditClick: function (grid, info) {
         // Crea el panel de edición
-        var panel = Ext.create('app.view.edit');
-        panel.setValues(info.record.data);
+        var panel = Ext.create('app.view.Edit');
+        panel.getViewModel().set('user', info.record.data);
 
         // Muestra el panel en un dialog
         Ext.Viewport.add({

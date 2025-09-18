@@ -1,7 +1,8 @@
-Ext.define('app.view.edit', {
+Ext.define('app.view.Edit', {
     extend: 'Ext.form.Panel',
     xtype: 'edituserpanel',
     controller: 'edituser',
+    viewModel: 'edituser',
     requires: [
         'Ext.form.FieldSet',
         'Ext.field.Text',
@@ -19,25 +20,27 @@ Ext.define('app.view.edit', {
     },
 
     items: [{
-    label: 'Usuario',
-    name: 'user_name',
-    readOnly: true,
-    enabled: false,
-    editable: false
-}, {
-    label: 'Nombres',
-    name: 'firstnames'
-}, {
-    label: 'Apellidos',
-    name: 'lastnames'
-}, {
-    label: 'Email',
-    name: 'email'
-},
-{
-    label: 'Celular',
-    name: 'mobilenumber'
-}],
+        label: 'Usuario',
+        name: 'user_name',
+        bind: '{user.user_name}',
+        readOnly: true
+    }, {
+        label: 'Nombres',
+        name: 'firstnames',
+        bind: '{user.firstnames}'
+    }, {
+        label: 'Apellidos',
+        name: 'lastnames',
+        bind: '{user.lastnames}'
+    }, {
+        label: 'Email',
+        name: 'email',
+        bind: '{user.email}'
+    }, {
+        label: 'Celular',
+        name: 'mobilenumber',
+        bind: '{user.mobilenumber}'
+    }],
     buttons: [{
         text: 'Guardar',
         handler: 'onSaveClick'
