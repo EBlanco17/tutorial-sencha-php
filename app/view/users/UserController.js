@@ -40,7 +40,23 @@ Ext.define('app.view.users.UserController', {
         let userName = info.record.get('user_name');
         Ext.Msg.confirm('Eliminar', '¿Estás seguro de que deseas eliminar este usuario? ' + userName, function (choice) {
             if (choice === 'yes') {
-                Ext.Msg.alert('Eliminado', userName + ' ha sido eliminado.');
+                Ext.Ajax.request({
+                    url: 'api/controller/FacturacionUserSelectedController.php',
+                    method: 'DELETE',
+                    jsonData: { user_name: userName },
+                    success: function (response) {
+                        var resp = Ext.decode(response.responseText);
+                        if (resp && resp.code === 200) {
+                            Ext.toast('Usuario eliminado correctamente', 2000);
+                            grid.getStore().reload();
+                        } else {
+                            Ext.Msg.alert('Error', resp.message || 'No se pudo eliminar');
+                        }
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Error', 'Error de comunicación con el servidor');
+                    }
+                });
             }
         });
     }

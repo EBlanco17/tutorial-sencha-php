@@ -31,7 +31,7 @@ class FacturacionUserSelectedService
             $start = ($page - 1) * $limit;
             // $user = $data['user'];
         
-            $query = "SELECT user_name, firstnames, lastnames, email, mobilenumber FROM mosat.cliente_mosat WHERE user_name LIKE '%prue%' LIMIT :limit OFFSET :start;";
+            $query = "SELECT user_name, firstnames, lastnames, email, mobilenumber FROM mosat.cliente_mosat WHERE statuscuenta='ACTIVO' AND user_name LIKE '%prue%' LIMIT :limit OFFSET :start;";
             $this->database->query($query);
             $this->database->bind(':limit', $limit);
             $this->database->bind(':start', $start);
@@ -48,7 +48,7 @@ class FacturacionUserSelectedService
             // $user = $data['user'];
             $queryv = "SELECT COUNT(*) OVER() AS total 
             FROM (
-                SELECT user_name, firstnames, lastnames, email, mobilenumber FROM mosat.cliente_mosat WHERE user_name LIKE '%prue%'
+                SELECT user_name, firstnames, lastnames, email, mobilenumber FROM mosat.cliente_mosat WHERE statuscuenta='ACTIVO' AND user_name LIKE '%prue%'
             ) AS subquery;";
             $this->database->query($queryv);
             // $this->database->bind(':user', $user);
@@ -64,7 +64,7 @@ class FacturacionUserSelectedService
         try {
             $this->data = $data;
             $this->database->beginTransaction();
-            $this->actualizarDatos();
+            $this->updateData();
             $this->database->endTransaction();
         } catch (BusinessException $e) {
             $this->database->cancelTransaction();
@@ -72,7 +72,7 @@ class FacturacionUserSelectedService
         }
     }
 
-    private function actualizarDatos()
+    private function updateData()
     {
         $query = "UPDATE mosat.cliente_mosat SET firstnames=:firstnames, lastnames=:lastnames, email=:email, mobilenumber=:mobilenumber WHERE user_name=:user_name;";
         $this->database->query($query);
@@ -84,6 +84,32 @@ class FacturacionUserSelectedService
         $this->database->execute();
     }
 
+
+    public function deleteUser($data)
+    {
+        try {
+            $this->data = $data;
+            $this->database->beginTransaction();
+            $this->deleteData();
+            $this->database->endTransaction();
+        } catch (BusinessException $e) {
+            $this->database->cancelTransaction();
+            throw $e;
+        }
+    }
+    private function deleteData()
+    {
+        // $query = "DELETE FROM mosat.cliente_mosat WHERE user_name=:user_name;";
+
+        $query = "UPDATE mosat.cliente_mosat SET statuscuenta='INACTIVO' WHERE user_name=:user_name;";
+        $this->database->query($query);
+        $this->database->bind(':user_name', $this->data['user_name']);
+        $this->database->execute();
+        $affected = $this->database->rowCount();
+        if ($affected === 0) {
+            throw new BusinessException(404, "No se encontró el usuario o ya está inactivo");
+        }
+    }
 
     private function validarDatos()
     {

@@ -2,18 +2,15 @@ Ext.define('app.view.users.UserGrid', {
     extend: 'Ext.grid.Grid',
     xtype: 'userGrid',
     controller: 'user',
-    
     requires: [
        'Pruebas.store.Users',
     ],
-
     title: 'Personal',
 
     store: {
         type: 'users'
     },
     items:[{
-        
         xtype: 'segmentedbutton',
         reference: 'buttons',
         forceSelection: true,
@@ -92,11 +89,12 @@ Ext.define('app.view.users.UserGrid', {
                 approve: {
                     iconCls: 'x-fa fa-edit blue',
                     handler: 'onEditClick',
+                    tooltip: 'Editar',
                 },
                 decline: {
                     iconCls: 'x-fa fa-trash red',
                     handler: 'onDeleteClick',
-                    weight: 1
+                    tooltip: 'Eliminar'
                 }
             }
         }

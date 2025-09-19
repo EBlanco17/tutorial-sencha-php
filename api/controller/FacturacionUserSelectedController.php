@@ -45,6 +45,26 @@ class FacturacionUserSelectedController
                 }
                 break;
 
+            case "DELETE":
+                try {
+                    $service = new FacturacionUserSelectedService();
+                    $deleteData = json_decode(file_get_contents('php://input'), true);
+                    $service->deleteUser($deleteData);
+                    $info_api = [];
+                    $respond_data = new JsonEncode(
+                        200,
+                        $response_code->CODE_REQUEST(200),
+                        "Usuario eliminado",
+                        $info_api,
+                        1
+                    );
+                    $respond_data->LoadJson();
+                } catch (BusinessException $e) {
+                    ExceptionBuilderUtil::buildException($e, $response_code);
+                }
+
+                break;
+
             default:
                 $info_api = [];
                 $respond_data = new JsonEncode(405, $response_code->CODE_REQUEST(405), "Error General", $info_api,1);
