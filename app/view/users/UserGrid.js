@@ -4,13 +4,26 @@ Ext.define('app.view.users.UserGrid', {
     controller: 'user',
     requires: [
        'Pruebas.store.Users',
+    //    'Ext.grid.plugin.filterbar.FilterBar'
     ],
     title: 'Personal',
-
+    // plugins: {
+    //         gridfilterbar: true
+    //     },
+rowNumbers: true,
     store: {
         type: 'users'
     },
     items:[{
+        xtype: 'textfield',
+        reference: 'globalSearch',
+        placeholder: 'Buscar...',
+        margin: 10,
+        docked: 'top',
+        listeners: {
+            change: 'onGlobalSearch'
+        }
+    },{
         xtype: 'segmentedbutton',
         reference: 'buttons',
         forceSelection: true,
@@ -27,8 +40,8 @@ Ext.define('app.view.users.UserGrid', {
             text: '60',
             value: 60
         }, {
-            text: '100',
-            value: 100
+            text: 'Todo',
+            value: 1000
         }],
         listeners: {
             change: 'onAutoPagingChange'
@@ -37,6 +50,7 @@ Ext.define('app.view.users.UserGrid', {
     columns: [{ 
         text: 'Name',
         dataIndex: 'user_name',
+        // filterType: 'string',
         cell: {
             userCls: 'bold'
         },
@@ -45,17 +59,20 @@ Ext.define('app.view.users.UserGrid', {
     {
         text: 'First Names',
         dataIndex: 'firstnames',
+        // filterType: 'string',
         width: 150,
 
     },
     {
         text: 'Last Names',
         dataIndex: 'lastnames',
+        // filterType: 'string',
        width: 150,
     },
     {
         text: 'Email',
         dataIndex: 'email',
+        // filterType: 'string',
         responsiveConfig: {
             'desktop': {
                 minWidth: 300
@@ -70,6 +87,7 @@ Ext.define('app.view.users.UserGrid', {
     {
         text: 'Mobile Number',
         dataIndex: 'mobilenumber',
+        filterType: 'string',
         width: 150,
         responsiveConfig: {
             'desktop': {

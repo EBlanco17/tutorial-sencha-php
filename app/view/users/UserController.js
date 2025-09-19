@@ -59,5 +59,23 @@ Ext.define('app.view.users.UserController', {
                 });
             }
         });
-    }
+    },
+
+    onGlobalSearch: function(field, newValue) {
+        var grid = this.getView(),
+            store = grid.getStore(),
+            search = newValue ? newValue.toLowerCase() : '';
+
+        store.clearFilter();
+
+        if (search) {
+            store.filterBy(function(record) {
+                return Object.values(record.data).some(function(value) {
+                    return String(value).toLowerCase().includes(search);
+                });
+            });
+        }
+    },
+
+    
 });
