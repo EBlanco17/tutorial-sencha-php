@@ -6,7 +6,7 @@ Ext.define('app.view.users.UserGrid', {
        'Pruebas.store.Users',
     //    'Ext.grid.plugin.filterbar.FilterBar'
     ],
-    title: 'Personal',
+    title: Pruebas.Locale.translate('Personal'),
     // plugins: {
     //         gridfilterbar: true
     //     },
@@ -48,7 +48,7 @@ rowNumbers: true,
         }
     }],
     columns: [{ 
-        text: 'Name',
+        text: Pruebas.Locale.translate('User Name'),
         dataIndex: 'user_name',
         // filterType: 'string',
         cell: {
@@ -57,20 +57,20 @@ rowNumbers: true,
         width: 320,
     },
     {
-        text: 'First Names',
+        text: Pruebas.Locale.translate('First Names'),
         dataIndex: 'firstnames',
         // filterType: 'string',
         width: 150,
 
     },
     {
-        text: 'Last Names',
+        text: Pruebas.Locale.translate('Last Names'),
         dataIndex: 'lastnames',
         // filterType: 'string',
        width: 150,
     },
     {
-        text: 'Email',
+        text: Pruebas.Locale.translate('Email'),
         dataIndex: 'email',
         // filterType: 'string',
         responsiveConfig: {
@@ -85,7 +85,7 @@ rowNumbers: true,
         
     },
     {
-        text: 'Mobile Number',
+        text: Pruebas.Locale.translate('Mobile Number'),
         dataIndex: 'mobilenumber',
         filterType: 'string',
         width: 150,

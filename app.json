@@ -16,8 +16,11 @@
      *      ]
      */
     "requires": [
-        "font-awesome"
+        "font-awesome",
+        "ext-locale"
     ],
+
+    "locales": ["es"],
 
     /**
      * The relative path to the application's markup file (html, jsp, asp, etc.).
@@ -386,7 +389,7 @@
      */
 
     "output": {
-        "base": "${workspace.build.dir}/${build.environment}/${app.name}",
+        "base": "${workspace.build.dir}/${build.environment}/${app.locale}/${app.name}",
         "appCache": {
             "enable": false
         }
